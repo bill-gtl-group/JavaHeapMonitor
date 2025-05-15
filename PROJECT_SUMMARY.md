@@ -24,7 +24,8 @@ All project files are now version-controlled and can be cloned, forked, or downl
 
 ## Project Files
 
-- `java_heap_memory_monitor.ps1` - The main PowerShell script
+- `java_heap_memory_monitor.ps1` - The original PowerShell script
+- `java_heap_memory_monitor_fixed.ps1` - Fixed version with improved heap usage calculation
 - `java_heap_monitor_config.json` - Configuration file
 - `README.md` - Documentation
 - `.gitignore` - Git ignore file
@@ -34,12 +35,25 @@ All project files are now version-controlled and can be cloned, forked, or downl
   - `create_github_repo.ps1` - Automated GitHub repository creation script
   - `github_token_guide.md` - Guide for GitHub tokens
   - `create_repo.ps1` - Script used to create the repository
+- Utility scripts:
+  - `run_fixed_monitor.bat` - Batch file to run the fixed monitor script
 
 ## How to Use
 
 1. **Running the Monitor**:
+   
+   Original version:
    ```powershell
    powershell -ExecutionPolicy Bypass -File "C:\Develop\Java Heap Monitor\java_heap_memory_monitor.ps1"
+   ```
+   
+   Fixed version (recommended):
+   ```
+   run_fixed_monitor.bat
+   ```
+   or
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File "C:\Develop\Java Heap Monitor\java_heap_memory_monitor_fixed.ps1"
    ```
 
 2. **Modifying Configuration**:
@@ -53,6 +67,16 @@ All project files are now version-controlled and can be cloned, forked, or downl
      git clone https://github.com/bill-gtl-group/JavaHeapMonitor.git
      ```
 
+## Heap Usage Calculation
+
+The original script used only the Old Generation space utilization to determine heap usage, which could lead to discrepancies when compared with Java monitoring tools. The fixed version (`java_heap_memory_monitor_fixed.ps1`) calculates a more accurate total heap usage by:
+
+1. Parsing all heap generation data from jstat output (Young and Old generations)
+2. Calculating a weighted average to better represent total heap usage
+3. Logging both individual generation usage and the calculated total for comparison
+
+This provides a more accurate representation of the actual Java heap memory usage and aligns better with what Java monitoring tools display.
+
 ## Next Steps
 
 Potential future enhancements:
@@ -60,3 +84,4 @@ Potential future enhancements:
 - Implement more advanced alerting mechanisms
 - Add support for monitoring multiple Java processes
 - Create a Windows service for continuous monitoring
+- Further refine the heap usage calculation for even greater accuracy
