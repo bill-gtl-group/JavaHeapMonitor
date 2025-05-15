@@ -1,0 +1,16 @@
+{
+    "threshold": 70,
+    "emailTo": "ahplau@hkma.gov.hk",
+    "emailFrom": "brdruat-alert@easynet.com.hk",
+    "smtpServer": "mail.easynet.com.hk",
+    "smtpPort": 2525,
+    "javaProcessName": "java",
+    "logDirectory": "C:\\JavaHeapMonitor\\Logs",
+    "jstatPath": "C:\\Program Files\\Java\\jdk-17.0.4.1\\bin\\jstat.exe",
+    "sleepInterval": 10,
+    "manualHostname": "BRDRUATWB01",
+    "alertRetryCount": 3,
+    "alertThrottleMinutes": 60,
+    "configReloadInterval": 300,
+    "debugMode": false
+}
