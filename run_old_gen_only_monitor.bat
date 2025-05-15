@@ -1,0 +1,3 @@
+@echo off
+echo Starting Java Heap Memory Monitor (Old Generation Only)...
+powershell -ExecutionPolicy Bypass -File "%~dp0java_heap_memory_monitor_old_gen_only.ps1"
