@@ -22,9 +22,6 @@ The project has been successfully pushed to GitHub and is available at:
 
 All project files are now version-controlled and can be cloned, forked, or downloaded from GitHub.
 
-### Git Operations
-
-The Git tools have been moved to a central location at `C:\Develop\git_tools`. A new batch file `git_operations.bat` has been created in the Java Heap Monitor directory to use these centralized tools.
 
 ## Project Files
 
@@ -38,7 +35,6 @@ The Git tools have been moved to a central location at `C:\Develop\git_tools`. A
 - Utility scripts:
   - `run_fixed_monitor.bat` - Batch file to run the fixed monitor script
   - `run_old_gen_only_monitor.bat` - Batch file to run the Old Generation only monitor
-  - `git_operations.bat` - Batch file to perform Git operations using the centralized Git tools
 
 ## How to Use
 

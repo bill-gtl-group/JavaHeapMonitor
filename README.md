@@ -6,18 +6,6 @@ This is an enhanced version of the Java Heap Memory Monitor with additional feat
 
 This project is available on GitHub at: https://github.com/bill-gtl-group/JavaHeapMonitor
 
-### Git Operations
-
-The Git tools have been moved to a central location at `C:\Develop\git_tools`. To perform Git operations for this project:
-
-1. Run `git_operations.bat` in the Java Heap Monitor directory
-2. Choose from the available options:
-   - Push changes to GitHub
-   - Set up a new GitHub repository
-   - Create a GitHub repository automatically (requires GitHub token)
-
-The batch file will use the Git tools from the central location, making it easier to maintain and update these tools across multiple projects.
-
 ## New Features
 
 1. **External Configuration File**: All settings are now stored in a JSON configuration file (`java_heap_monitor_config.json`) that can be modified without changing the script.
