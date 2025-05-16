@@ -161,9 +161,31 @@ while ($true) {
 
     # Get heap memory usage using jstat -gc (which shows actual sizes, not just percentages)
     try {
-        $jstatOutput = & $config.jstatPath -gc $javaPID
+        Write-Log "Executing: $($config.jstatPath) -gc $javaPID"
+        $jstatOutput = & $config.jstatPath -gc $javaPID 2>&1
+        
+        # Check if there was an error
+        if ($LASTEXITCODE -ne 0) {
+            Write-Log "jstat command failed with exit code $LASTEXITCODE"
+            Write-Log "Output: $jstatOutput"
+            
+            # Try with -help to see if jstat is working at all
+            Write-Log "Testing jstat with -help option..."
+            $jstatHelpOutput = & $config.jstatPath -help 2>&1
+            Write-Log "jstat -help output: $jstatHelpOutput"
+            
+            # Try listing available counters for the process
+            Write-Log "Testing jstat with -options for PID $javaPID..."
+            $jstatOptionsOutput = & $config.jstatPath -options $javaPID 2>&1
+            Write-Log "jstat -options output: $jstatOptionsOutput"
+            
+            Start-Sleep -Seconds $config.sleepInterval
+            continue
+        }
     } catch {
         Write-Log "Failed to execute jstat: $_"
+        Write-Log "Exception details: $($_.Exception.Message)"
+        Write-Log "Stack trace: $($_.ScriptStackTrace)"
         Start-Sleep -Seconds $config.sleepInterval
         continue
     }
