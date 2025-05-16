@@ -155,16 +155,55 @@ function Get-MemoryUsage {
         $computerSystem = Get-WmiObject -Class Win32_ComputerSystem
         $totalPhysicalMemory = $computerSystem.TotalPhysicalMemory
         
-        # Calculate memory usage percentage based on working set
-        $memoryUsagePercentage = [math]::Round(($workingSet / $totalPhysicalMemory) * 100, 2)
-        Write-Log "Memory usage percentage (Working Set / Total Physical Memory): $memoryUsagePercentage%"
+        # Extract max heap size from command line if available
+        $maxHeapSize = 0
+        $commandLine = $process.CommandLine
+        if ($commandLine -match "-Xmx(\d+)([mMgG])")
+        {
+            $heapSizeValue = [int]$Matches[1]
+            $heapSizeUnit = $Matches[2].ToLower()
+            
+            if ($heapSizeUnit -eq "g")
+            {
+                $maxHeapSize = $heapSizeValue * 1024 # Convert GB to MB
+            }
+            else
+            {
+                $maxHeapSize = $heapSizeValue # Already in MB
+            }
+            
+            Write-Log "Detected max heap size from command line: $maxHeapSize MB"
+        }
         
-        # Calculate memory usage percentage based on private memory
-        $privateMemoryPercentage = [math]::Round(($privateMemory / $totalPhysicalMemory) * 100, 2)
-        Write-Log "Memory usage percentage (Private Memory / Total Physical Memory): $privateMemoryPercentage%"
+        # Calculate actual heap usage (focus on used heap, not committed)
+        # For Java processes, the actual heap usage is typically closer to the Working Set
+        # than the Private Memory, especially for small heap sizes
+        $estimatedHeapUsage = $workingSet
+        $estimatedHeapUsageMB = [math]::Round($estimatedHeapUsage / 1048576, 2)
+        Write-Log "Estimated actual heap usage: $estimatedHeapUsageMB MB"
         
-        # Return the private memory percentage as it's closer to actual heap usage
-        return $privateMemoryPercentage
+        # If we have a max heap size, calculate percentage based on that
+        if ($maxHeapSize -gt 0)
+        {
+            $heapUsagePercentage = [math]::Round(($estimatedHeapUsageMB / $maxHeapSize) * 100, 2)
+            Write-Log "Heap usage percentage (Estimated Heap / Max Heap): $heapUsagePercentage%"
+            
+            # Return the heap usage percentage
+            return $heapUsagePercentage
+        }
+        else
+        {
+            # Calculate memory usage percentage based on working set
+            $memoryUsagePercentage = [math]::Round(($workingSet / $totalPhysicalMemory) * 100, 2)
+            Write-Log "Memory usage percentage (Working Set / Total Physical Memory): $memoryUsagePercentage%"
+            
+            # Calculate memory usage percentage based on private memory
+            $privateMemoryPercentage = [math]::Round(($privateMemory / $totalPhysicalMemory) * 100, 2)
+            Write-Log "Memory usage percentage (Private Memory / Total Physical Memory): $privateMemoryPercentage%"
+            
+            # Return the working set percentage as it's closer to actual heap usage
+            return $memoryUsagePercentage
+        }
     }
     catch {
         Write-Log "Error getting memory usage: $_"
