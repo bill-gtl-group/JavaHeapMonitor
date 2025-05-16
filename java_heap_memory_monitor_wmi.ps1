@@ -197,7 +197,7 @@ function Get-DetailedProcessInfo {
         $creationDate = $process.CreationDate
         
         # Log process details
-        Write-Log "Detailed process information for PID $processPid:"
+        Write-Log "Detailed process information for PID: $processPid"
         Write-Log "  Process Name: $processName"
         Write-Log "  Process Path: $processPath"
         Write-Log "  Command Line: $commandLine"
