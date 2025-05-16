@@ -145,15 +145,18 @@ while ($true) {
     }
 
     # Get the Java process ID
-    $javaProcess = Get-Process | Where-Object { $_.ProcessName -like $config.javaProcessName }
+    $javaProcesses = Get-Process | Where-Object { $_.ProcessName -like $config.javaProcessName -or $_.ProcessName -like "HeapTester*" -or $_.ProcessName -like "*java*" }
 
-    if (-not $javaProcess) {
-        Write-Log "No Java process found with name '$($config.javaProcessName)'. Waiting..."
+    if (-not $javaProcesses -or $javaProcesses.Count -eq 0) {
+        Write-Log "No Java process found with name '$($config.javaProcessName)' or 'HeapTester*' or '*java*'. Waiting..."
         Start-Sleep -Seconds $config.sleepInterval
         continue
     }
 
+    # If multiple Java processes are found, use the first one
+    $javaProcess = $javaProcesses | Select-Object -First 1
     $javaPID = $javaProcess.Id
+    Write-Log "Found Java process: $($javaProcess.ProcessName) with PID: $javaPID"
     Write-Log "Monitoring Java process with PID: $javaPID"
 
     # Get heap memory usage using jstat -gc (which shows actual sizes, not just percentages)
