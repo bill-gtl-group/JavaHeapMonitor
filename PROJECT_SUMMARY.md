@@ -22,21 +22,23 @@ The project has been successfully pushed to GitHub and is available at:
 
 All project files are now version-controlled and can be cloned, forked, or downloaded from GitHub.
 
+### Git Operations
+
+The Git tools have been moved to a central location at `C:\Develop\git_tools`. A new batch file `git_operations.bat` has been created in the Java Heap Monitor directory to use these centralized tools.
+
 ## Project Files
 
 - `java_heap_memory_monitor.ps1` - The original PowerShell script
 - `java_heap_memory_monitor_fixed.ps1` - Fixed version with improved heap usage calculation
+- `java_heap_memory_monitor_old_gen_only.ps1` - Version that only monitors Old Generation heap usage
 - `java_heap_monitor_config.json` - Configuration file
 - `README.md` - Documentation
+- `README-OLD-GEN-ONLY.md` - Documentation for the Old Generation only version
 - `.gitignore` - Git ignore file
-- GitHub integration scripts:
-  - `push_to_github.bat` - Main script for GitHub integration
-  - `setup_github_repo.bat` - Manual Git setup script
-  - `create_github_repo.ps1` - Automated GitHub repository creation script
-  - `github_token_guide.md` - Guide for GitHub tokens
-  - `create_repo.ps1` - Script used to create the repository
 - Utility scripts:
   - `run_fixed_monitor.bat` - Batch file to run the fixed monitor script
+  - `run_old_gen_only_monitor.bat` - Batch file to run the Old Generation only monitor
+  - `git_operations.bat` - Batch file to perform Git operations using the centralized Git tools
 
 ## How to Use
 

@@ -4,19 +4,19 @@ This is an enhanced version of the Java Heap Memory Monitor with additional feat
 
 ## GitHub Repository
 
-This project includes scripts to help you create a GitHub repository and push the code:
+This project is available on GitHub at: https://github.com/bill-gtl-group/JavaHeapMonitor
 
-1. **Using the Batch Script** (Manual approach):
-   - Run `setup_github_repo.bat` to initialize a Git repository
-   - Follow the on-screen instructions to create a GitHub repository and push the code
+### Git Operations
 
-2. **Using the PowerShell Script** (Automated approach):
-   - Run the PowerShell script with your GitHub credentials:
-   ```powershell
-   .\create_github_repo.ps1 -GitHubUsername "your-username" -PersonalAccessToken "your-token"
-   ```
-   - This will create a GitHub repository and push the code automatically
-   - You'll need a GitHub Personal Access Token with 'repo' scope
+The Git tools have been moved to a central location at `C:\Develop\git_tools`. To perform Git operations for this project:
+
+1. Run `git_operations.bat` in the Java Heap Monitor directory
+2. Choose from the available options:
+   - Push changes to GitHub
+   - Set up a new GitHub repository
+   - Create a GitHub repository automatically (requires GitHub token)
+
+The batch file will use the Git tools from the central location, making it easier to maintain and update these tools across multiple projects.
 
 ## New Features
 
